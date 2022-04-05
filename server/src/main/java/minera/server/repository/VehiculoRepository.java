@@ -12,4 +12,6 @@ public interface VehiculoRepository extends CrudRepository<Vehiculo, Integer> {
 
     Vehiculo findFirstByIdVehiculo(Integer idVehiculo);
 
+    Vehiculo findFirstByMatricula(String matricula);
+
 }

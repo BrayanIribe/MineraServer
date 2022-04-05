@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import minera.server.model.Posicion;
+import minera.server.model.Vehiculo;
 import minera.server.repository.PosicionRepository;
 
 @Service
@@ -19,6 +20,16 @@ public class PosicionServiceImpl implements PosicionService {
     public List<Posicion> find() {
         List<Posicion> list = new ArrayList<Posicion>();
         for (Posicion item : repository.findAll()) {
+            list.add(item);
+        }
+        return list;
+
+    }
+
+    @Override
+    public List<Posicion> findByVehiculo(Vehiculo v) {
+        List<Posicion> list = new ArrayList<Posicion>();
+        for (Posicion item : repository.findByIdVehiculo(v.idVehiculo)) {
             list.add(item);
         }
         return list;

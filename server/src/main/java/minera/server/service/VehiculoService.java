@@ -10,6 +10,8 @@ public interface VehiculoService {
 
     public Vehiculo findFirstById(Integer id) throws Exception;
 
+    public Vehiculo findFirstByMatricula(String matricula) throws Exception;
+
     public Integer create(Vehiculo usuario) throws Exception;
 
     public Boolean update(Vehiculo usuario) throws Exception;

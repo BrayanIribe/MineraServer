@@ -31,6 +31,11 @@ public class VehiculoServiceImpl implements VehiculoService {
     }
 
     @Override
+    public Vehiculo findFirstByMatricula(String matricula) {
+        return repository.findFirstByMatricula(matricula);
+    }
+
+    @Override
     public Integer create(Vehiculo vehiculo) throws Exception {
         vehiculo.idVehiculo = 0;
         Vehiculo s = repository.save(vehiculo);
