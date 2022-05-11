@@ -19,6 +19,7 @@ public class Posicion {
     public Double longitud;
     public Double latitud;
     public Double radio;
+    public String timeAt;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)

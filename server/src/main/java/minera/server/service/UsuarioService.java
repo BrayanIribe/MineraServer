@@ -8,7 +8,7 @@ public interface UsuarioService {
 
     public List<Usuario> find();
 
-    public Usuario authenticate(String usuario, String password) throws Exception;
+    public Boolean authenticate(String usuario, String password);
 
     public Usuario findFirstById(Integer id) throws Exception;
 

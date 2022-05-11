@@ -1,6 +1,5 @@
 package minera.server.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,42 +13,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import minera.server.model.Posicion;
-import minera.server.model.Vehiculo;
-import minera.server.service.PosicionService;
-import minera.server.service.VehiculoService;
+import minera.server.model.Semaforo;
+import minera.server.service.SemaforoService;
 
 @RestController
 @CrossOrigin
-@RequestMapping(path = "/vehiculos")
-public class VehiculosController {
+@RequestMapping(path = "/semaforos")
+public class SemaforosController {
     @Autowired
-    private VehiculoService svc;
-    @Autowired
-    private PosicionService posicionSvc;
+    private SemaforoService svc;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<VehiculoResponse>> fetch() {
+    public ResponseEntity<List<Semaforo>> fetch() {
 
-        List<Vehiculo> rows = svc.find();
-        List<VehiculoResponse> vehiculos = new ArrayList<>();
-        for (Vehiculo vehiculo : rows) {
-            List<Posicion> posiciones = posicionSvc.findByVehiculo(vehiculo);
-            VehiculoResponse resp = new VehiculoResponse();
-            resp.vehiculo = vehiculo;
-            resp.posicion = posiciones.get(posiciones.size() - 1);
-            vehiculos.add(resp);
-        }
-        return new ResponseEntity<List<VehiculoResponse>>(vehiculos, HttpStatus.OK);
+        List<Semaforo> rows = svc.find();
+        return new ResponseEntity<List<Semaforo>>(rows, HttpStatus.OK);
     }
 
     @RequestMapping(value = { "/{id}" }, method = RequestMethod.GET)
     public ResponseEntity fetchById(@PathVariable("id") Integer id) throws Exception {
 
-        Vehiculo r = svc.findFirstById(id);
+        Semaforo r = svc.findFirstById(id);
         HttpStatus status = HttpStatus.NOT_FOUND;
         if (r != null) {
-            return new ResponseEntity<Vehiculo>(r, HttpStatus.OK);
+            return new ResponseEntity<Semaforo>(r, HttpStatus.OK);
         }
 
         HashMap<String, Boolean> response = new HashMap<>();
@@ -58,7 +45,7 @@ public class VehiculosController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<HashMap<String, Integer>> create(@RequestBody Vehiculo r) throws Exception {
+    public ResponseEntity<HashMap<String, Integer>> create(@RequestBody Semaforo r) throws Exception {
         Integer rowId = svc.create(r);
 
         HashMap<String, Integer> response = new HashMap<>();
@@ -73,18 +60,18 @@ public class VehiculosController {
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public ResponseEntity<HashMap<String, Integer>> update(@RequestBody Vehiculo r) throws Exception {
+    public ResponseEntity<HashMap<String, Integer>> update(@RequestBody Semaforo r) throws Exception {
 
         HashMap<String, Integer> response = new HashMap<>();
 
-        if (svc.findFirstById(r.idVehiculo) == null) {
+        if (svc.findFirstById(r.idSemaforo) == null) {
             response.put("id", 0);
             return new ResponseEntity<HashMap<String, Integer>>(response, HttpStatus.NOT_FOUND);
         }
 
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
         if (svc.update(r)) {
-            response.put("id", r.idVehiculo);
+            response.put("id", r.idSemaforo);
             status = HttpStatus.OK;
         }
 
@@ -94,7 +81,7 @@ public class VehiculosController {
     @RequestMapping(value = { "/{id}" }, method = RequestMethod.DELETE)
     public ResponseEntity delete(@PathVariable("id") Integer id) throws Exception {
 
-        Vehiculo r = svc.findFirstById(id);
+        Semaforo r = svc.findFirstById(id);
         HashMap<String, Boolean> response = new HashMap<>();
 
         if (r == null || !svc.delete(id)) {

@@ -1,12 +1,15 @@
 package minera.server.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +22,7 @@ import minera.server.service.PosicionService;
 import minera.server.service.VehiculoService;
 
 @RestController
+@CrossOrigin
 @RequestMapping(path = "/posiciones")
 public class PosicionesController {
     @Autowired
@@ -59,7 +63,7 @@ public class PosicionesController {
         }
 
         p.idVehiculo = v.idVehiculo;
-
+        p.timeAt = new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
         Integer posicionId = svc.create(p);
         if (posicionId <= 0) {
             response.put("ok", false);

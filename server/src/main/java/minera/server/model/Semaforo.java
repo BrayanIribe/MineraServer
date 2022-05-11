@@ -15,6 +15,7 @@ public class Semaforo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Integer idSemaforo;
+    public String nombre;
     public Double longitud;
     public Double latitud;
     public Double radio;

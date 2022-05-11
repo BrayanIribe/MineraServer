@@ -26,8 +26,13 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public Usuario authenticate(String usuario, String password) throws Exception {
-        throw new Exception("Not implemented yet!");
+    public Boolean authenticate(String usuario, String password) {
+        try {
+            Usuario row = repository.findFirstByUsuario(usuario);
+            return row != null && row.password.equals(password);
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override

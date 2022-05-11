@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import minera.server.model.Usuario;
 import minera.server.service.UsuarioService;
 
 @RestController
+@CrossOrigin
 @RequestMapping(path = "/usuarios")
 public class UsuariosController {
     @Autowired
@@ -55,6 +57,15 @@ public class UsuariosController {
         }
 
         return new ResponseEntity<HashMap<String, Integer>>(response, status);
+    }
+
+    @RequestMapping(value = { "/login" }, method = RequestMethod.POST)
+    public ResponseEntity<HashMap<String, Boolean>> login(@RequestBody LoginRequest r) throws Exception {
+
+        HashMap<String, Boolean> response = new HashMap<>();
+        response.put("ok", svc.authenticate(r.user, r.passwd));
+
+        return new ResponseEntity<HashMap<String, Boolean>>(response, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.PUT)
